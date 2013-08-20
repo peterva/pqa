@@ -2,4 +2,45 @@
 
 # Author    : Peter van Arkel <p.vanarkel@gmail.com>
 # License   : GPLv3
+# Version   : 0.1
 # Codebase  : https://github.com/peterva/pqa
+
+"""Postfix Queue Administration Tool"""
+
+import sys, subprocess
+import argparse
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description='Postfix Queue Administration Tool',
+            prog='pqa',
+            usage='%(prog)s [-h] [-v,--version]',
+            formatter_class=argparse.RawDescriptionHelpFormatter,)
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1')
+    info = parser.add_argument_group(title='informational options',
+            description='''-l, --list              Shows full overview of all queues
+-q, --queue <queue>     Show information for <queue> 
+-d, --domain <domain>   Show information about a specific <domain>
+''')
+    chng = parser.add_argument_group(title='options with actions (not implemented yet)',
+            description='''-f, --flush             Flushes queues
+-x, --delete <ID>       Deletes <ID> from the queue
+''')
+    info.add_argument('-l', '--list', action='store_true',
+            help=argparse.SUPPRESS)
+    info.add_argument('-q', '--queue', action='store', dest='queue',
+            help=argparse.SUPPRESS)
+    info.add_argument('-d', '--domain', action='store', dest='domain',
+            help=argparse.SUPPRESS)
+    chng.add_argument('-f', '--flush', action='store_true',
+            help=argparse.SUPPRESS)
+    chng.add_argument('-x', '--delete', action='store', dest='delete',
+            help=argparse.SUPPRESS)
+    args = parser.parse_args()
+
+    if args.list is True:
+        print 'show full overview of all queues'
+    elif args.queue is not None:
+        print 'show information about a specific queue, namely: ' + args.queue
+    else:
+        parser.print_help()
