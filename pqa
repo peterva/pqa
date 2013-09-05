@@ -3,7 +3,7 @@
 # Author    : Peter van Arkel <p.vanarkel@gmail.com>
 # License   : GPLv3
 # Version   : 0.1
-# Codebase  : https://github.com/peterva/pqa
+# Codebase  : http://repo.vasercon.nl:8080/gitlab/pqa/tree/master 
 
 """Postfix Queue Administration Tool"""
 
@@ -17,10 +17,13 @@ if __name__ == '__main__':
             usage='%(prog)s [-h] [-v,--version]',
             formatter_class=argparse.RawDescriptionHelpFormatter,)
     parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1')
+    parser.add_argument('--conf', action='store', metavar='<conf>', default='include/pqa.conf', dest='conf',
+            help='Use specific configfile for pqa, defaults to <pqa.conf>')
     info = parser.add_argument_group(title='informational options',
             description='''-l, --list              Shows full overview of all queues
 -q, --queue <queue>     Show information for <queue> 
 -d, --domain <domain>   Show information about a specific <domain>
+-s, --sender <address>  Show information about a specific <address>
 ''')
     chng = parser.add_argument_group(title='options with actions (not implemented yet)',
             description='''-f, --flush             Flushes queues
@@ -32,6 +35,8 @@ if __name__ == '__main__':
             help=argparse.SUPPRESS)
     info.add_argument('-d', '--domain', action='store', dest='domain',
             help=argparse.SUPPRESS)
+    info.add_argument('-s', '--sender', action='store', dest='sender',
+            help=argparse.SUPPRESS)
     chng.add_argument('-f', '--flush', action='store_true',
             help=argparse.SUPPRESS)
     chng.add_argument('-x', '--delete', action='store', dest='delete',
@@ -42,5 +47,9 @@ if __name__ == '__main__':
         print 'show full overview of all queues'
     elif args.queue is not None:
         print 'show information about a specific queue, namely: ' + args.queue
+    elif args.flush is True:
+        print 'This option is not implemented yet, v1.0 will include this functionality'
+    elif args.delete is not None:
+        print 'This option is not implemented yet, v1.0 will include this functionality'
     else:
         parser.print_help()
